@@ -1,0 +1,12 @@
+builder
+	- (string) hello = 'hello world'
+	+ constructor( $hello )
+
+User
+	- (string) name
+	- (string) pass
+	+ constructor( $name )
+	+ setPass( $pass )
+	+ getName()
+	+ getPass()
+	+ save()
