@@ -2,7 +2,7 @@
 
 namespace OOPbuilder\Builder;
 
-class BuilderInterface
+interface BuilderInterface
 {
-    
+    public function build();
 }
