@@ -2,6 +2,8 @@
 
 namespace OOPbuilder\Builder;
 
+use OOPbuilder\Helper;
+
 class PropertyBuilder implements BuilderInterface
 {
     /**
@@ -22,10 +24,13 @@ class PropertyBuilder implements BuilderInterface
     public function __construct($name, $access = 'public', $defaultValue = null)
     {
         $this->name = $name;
-        $this->access = $access;
+        $this->access = (Helper::is_access($access)
+                            ? $access
+                            : 'public'
+                        );
         $this->defaultValue = ($defaultValue == null 
                                     ? null
-                                    : $this->parseValue($defaultValue)
+                                    : Helper::parseValue($defaultValue)
                               );
     }
 
@@ -40,29 +45,5 @@ class PropertyBuilder implements BuilderInterface
                                                    ? ' = '.trim($this->defaultValue)
                                                    : ''
                                               ).';';
-    }
-
-    /**
-     * Parses a value to a nice value
-     *
-     * @access protected
-     * @param string $value
-     * @return string $valueSource The resulted value source
-     */
-    protected function parseValue($value)
-    {
-        if (is_numeric($value)                                  # interger/float
-            || in_array($value, array('true', 'false', 'null')) # true/false/null
-            || preg_match('/^array\((.*?)\)$/i', $value)        # array
-            || preg_match('/^new\s(.*?)/', $value)              # instance
-            || in_array($value, array("''", '""'))              # empty string
-           ) {
-            $valueSource = $value;
-        }
-        else {
-            $valueSource = "'".$value."'";
-        }
-
-        return $valueSource;
     }
 }

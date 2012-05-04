@@ -2,6 +2,8 @@
 
 namespace OOPbuilder\Builder;
 
+use OOPbuilder\Helper;
+
 class MethodBuilder implements BuilderInterface
 {
     /**
@@ -24,9 +26,13 @@ class MethodBuilder implements BuilderInterface
      */
     protected $code;
 
-    public function __construct($name)
+    public function __construct($name, $access = 'public')
     {
         $this->name = $name;
+        $this->access = (Helper::is_access($access)
+                            ? $access
+                            : 'public'
+                        );
     }
 
     public function addArgument($name, $default = null)
@@ -49,7 +55,27 @@ class MethodBuilder implements BuilderInterface
      */
     public function build()
     {
-        // build method
-        return $method;
+        $method = '\n\t'.$this->access.' function '.$this->name.'('.$this->generateArguments().")\n\t{";
+        if ($this->code !== null) {
+            $method .= "\n\t\t".$this->code;
+        }
+
+        return $method."\n\t}\n";
+    }
+
+    protected function generateArguments()
+    {
+        $args = '';
+        foreach ($this->arguments as $name => $defaultValue) {
+            $args .= '$'.$name.($defaultValue !== null
+                                ? ' = '.Helper::parseValue($defaultValue)
+                                : ''
+                             ).', ';
+        }
+        if (substr($args, -2) == ', ') {
+            $args = substr($args, 0, -2);
+        }
+
+        return $args;
     }
 }
