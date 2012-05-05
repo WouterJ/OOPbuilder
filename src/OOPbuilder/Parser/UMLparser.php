@@ -2,11 +2,78 @@
 
 namespace OOPbuilder\Parser;
 
+use OOPbuilder\Helper;
+
 class UMLparser implements ParserInterface
 {
 	public function parse($data)
 	{
 		$info = array();
+
+		// parsing
+		
+		return $info;
+	}
+
+	public function getClasses($str)
+	{
+		$classes = array();
+		$i = -1;
+
+		foreach (preg_split('/((\r?\n)|(\n?\r))/', $str) as $line) {
+			if ($line !== 0 && empty($line)) {
+				continue;
+			}
+
+			if (substr($line, 0, 2) !== '  ') {
+				$classes[++$i] = array(
+					'name' => $line,
+					'methods' => array(),
+				);
+			}
+			elseif (substr($line, 0, 2) === '  ') {
+				$classes[$i]['methods'][] = $this->parseMethod(substr($line, 2));
+			}
+			else {
+				continue;
+			}
+		}
+		return $classes;
+	}
+
+	public function parseMethod($str)
+	{
+		$property = array(
+			'name' => '',
+			'access' => $this->parseAccess(substr($str, 0, 1)),
+		);
+		preg_match('/(?<=\s).*?(?=\()/', $str, $name);
+		$property['name'] = $name[0];
+
+		return $property;
+	}
+
+	public function parseArguments($str)
+	{
+	}
+
+	public function parseAccess($str)
+	{
+		$umlAccess = array(
+			'+' => 'public',
+			'#' => 'protected',
+			'-' => 'private',
+		);
+
+		if (isset($umlAccess[$str])) {
+			return $umlAccess[$str];
+		}
+		else {
+			return (Helper::is_access($str)
+						? $str
+						: 'public'
+				   );
+		}
 	}
 }
 
@@ -53,3 +120,4 @@ Array (
 	),
 	...
 )
+ */

@@ -13,11 +13,15 @@ class UMLparserTest extends \PHPUnit_Framework_TestCase
 		$this->parser = new UMLparser();
 	}
 
-	public function testClasses()
+	public function testClassName()
 	{
 		$uml = <<<EOT
 ClassName
+  + method()
+
+AntotherClass
+  + anotherMethod(someParam)
 EOT;
-		$this->parser->parse($uml);
+		var_dump($this->parser->getClasses($uml));
 	}
 }
