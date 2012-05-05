@@ -6,6 +6,11 @@ use OOPbuilder\Builder\PropertyBuilder;
 
 class PropertyBuilderTest extends \PHPUnit_Framework_TestCase
 {
+	public function testInstance()
+	{
+		$this->assertInstanceOf('OOPbuilder\Builder\BuilderInterface', new PropertyBuilder('foobar'));
+	}
+
     public function testPropertyName()
     {
         $builder = new PropertyBuilder('propName');

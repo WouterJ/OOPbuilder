@@ -21,7 +21,7 @@ class Classbuilder implements BuilderInterface
 
     public function __construct($name)
     {
-        $this->name = $name;
+        $this->name = ucfirst($name);
     }
 
     public function addMethod(MethodBuilder $method)
@@ -41,7 +41,28 @@ class Classbuilder implements BuilderInterface
      */
     public function build()
     {
-        // build class
+		$class = 'class '.$this->name;
+		if ($this->properties == array() && $this->methods == array()) {
+			$class .= ' {}';
+		}
+		else {
+			$class .= "\n{";
+
+			foreach ($this->properties as $property) {
+				$class .= "\n\t".$property->build();
+			}
+
+			if (substr($class, -1) !== '{' && $this->methods !== array()) {
+				$class .= "\n";
+			}
+
+			foreach ($this->methods as $method) {
+				$class .= "\n".$method->build()."\n";
+			}
+
+			$class .= "}";
+		}
+
         return $class;
     }
 }

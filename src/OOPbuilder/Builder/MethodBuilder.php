@@ -28,7 +28,9 @@ class MethodBuilder implements BuilderInterface
 
     public function __construct($name, $access = 'public')
     {
-        $this->name = $name;
+		$this->name = preg_replace_callback('/^[A-Z]/', function($match) {
+			return strtolower($match[0]);
+		}, $name);
         $this->access = (Helper::is_access($access)
                             ? $access
                             : 'public'
@@ -55,12 +57,12 @@ class MethodBuilder implements BuilderInterface
      */
     public function build()
     {
-        $method = '\n\t'.$this->access.' function '.$this->name.'('.$this->generateArguments().")\n\t{";
+        $method = "\t".$this->access.' function '.$this->name.'('.$this->generateArguments().")\n\t{";
         if ($this->code !== null) {
             $method .= "\n\t\t".$this->code;
         }
 
-        return $method."\n\t}\n";
+        return $method."\n\t}";
     }
 
     protected function generateArguments()

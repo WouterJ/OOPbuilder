@@ -6,10 +6,18 @@ use OOPbuilder\Builder\MethodBuilder;
 
 class MethodBuilderTest extends \PHPUnit_Framework_TestCase
 {
+	public function testInstance()
+	{
+		$this->assertInstanceOf('OOPbuilder\Builder\BuilderInterface', new MethodBuilder('foobar'));
+	}
+
     public function testMethodName()
     {
         $method = new MethodBuilder('foobar');
+        $this->assertContains('foobar', $method->build());
 
+		// should lowercase first letter
+        $method = new MethodBuilder('Foobar');
         $this->assertContains('foobar', $method->build());
     }
 
