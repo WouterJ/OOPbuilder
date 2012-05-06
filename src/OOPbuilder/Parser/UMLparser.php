@@ -9,36 +9,67 @@ class UMLparser implements ParserInterface
 	public function parse($data)
 	{
 		$info = array();
+        $parts = array(
+            'classes' => array(),
+            'interfaces' => array(),
+        );
+        $i = -1;
 
-		// parsing
-		
-		return $info;
-	}
-
-	public function getClasses($str)
-	{
-		$classes = array();
-		$i = -1;
-
-		foreach (preg_split('/((\r?\n)|(\n?\r))/', $str) as $line) {
+		foreach (preg_split('/((\r?\n)|(\n?\r))/', $data) as $line) {
 			if ($line !== 0 && empty($line)) {
 				continue;
 			}
 
 			if (substr($line, 0, 2) !== '  ') {
-				$classes[++$i] = array(
+                if (substr($line, 0, 2) == '<<') {
+                    $parts['interfaces'][++$i] = array($line);
+                }
+                else {
+                    $parts['classes'][++$i] = array($line);
+                }
+            }
+            else {
+                if (isset($parts['classes'][$i])) {
+                    $parts['classes'][$i][] = $line;
+                }
+                else {
+                    $parts['interfaces'][$i][] = $line;
+                }
+            }
+        }
+
+        foreach ($parts['classes'] as $class) {
+            $info[] = $this->parseClass(implode("\n", $class));
+        }
+
+		return $info;
+	}
+
+	public function parseClass($str)
+	{
+		$class = array('type' => 'class');
+		$i = -1;
+
+		foreach (preg_split('/\n/', $str) as $line) {
+			if ($line !== 0 && empty($line)) {
+				continue;
+			}
+
+			if (substr($line, 0, 2) !== '  ') {
+				$class[++$i] = array(
 					'name' => $line,
 					'methods' => array(),
 				);
 			}
 			elseif (substr($line, 0, 2) === '  ') {
-				$classes[$i]['methods'][] = $this->parseMethod(substr($line, 2));
+				$class[$i]['methods'][] = $this->parseMethod(substr($line, 2));
 			}
 			else {
 				continue;
 			}
 		}
-		return $classes;
+
+		return $class;
 	}
 
 	public function parseMethod($str)
@@ -49,6 +80,22 @@ class UMLparser implements ParserInterface
 		);
 		preg_match('/(?<=\s).*?(?=\()/', $str, $name);
 		$property['name'] = $name[0];
+
+        if (preg_match('/\((.+?)\)$/', $str, $args)) {
+            $property['arguments'] = array();
+
+            $arguments = explode(', ', $args[1]);
+            foreach ($arguments as $arg) {
+                @list($argName, $argValue) = explode('=', $arg);
+                $property['arguments'][] = array(
+                    'name' => trim($argName),
+                    'value' => ($argValue !== 0 && !empty($argValue)
+                                    ? Helper::parseValue(trim($argValue))
+                                    : null
+                               ),
+                );
+            }
+        }
 
 		return $property;
 	}
@@ -100,8 +147,14 @@ Array (
 				[name] => 'someMethod',
 				[access] => 'public',
 				[arguments] => Array (
-					[name] => 'foo',
-					[value] => 'some default foovalue',
+                    [0] => Array (
+                        [name] => 'foo',
+                        [value] => 'some default foovalue',
+                    ),
+                    [1] => Array (
+                        ...
+                    ),
+                    ...
 				),
 			),
 			[1] => Array (

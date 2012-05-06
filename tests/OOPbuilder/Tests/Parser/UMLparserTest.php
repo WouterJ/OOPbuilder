@@ -19,9 +19,9 @@ class UMLparserTest extends \PHPUnit_Framework_TestCase
 ClassName
   + method()
 
-AntotherClass
-  + anotherMethod(someParam)
+AnotherClass
+  + anotherMethod(someParam, otherFoo = null, bar = true)
 EOT;
-		var_dump($this->parser->getClasses($uml));
+		var_dump($this->parser->parse($uml));
 	}
 }
