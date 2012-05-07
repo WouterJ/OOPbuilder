@@ -39,30 +39,40 @@ class UMLparser implements ParserInterface
         }
 
         foreach ($parts['classes'] as $class) {
-            $info[] = $this->parseClass(implode("\n", $class));
+            $info[] = $this->parseClass($class);
         }
 
 		return $info;
 	}
 
-	public function parseClass($str)
+	public function parseClass($data)
 	{
-		$class = array('type' => 'class');
-		$i = -1;
+        $class = array(
+            'type' => 'class',
+            'name' => '',
+            'properties' => array(),
+            'methods' => array(),
+        );
 
-		foreach (preg_split('/\n/', $str) as $line) {
+		foreach ($data as $line) {
 			if ($line !== 0 && empty($line)) {
 				continue;
 			}
 
 			if (substr($line, 0, 2) !== '  ') {
-				$class[++$i] = array(
-					'name' => $line,
-					'methods' => array(),
-				);
+				$class['name'] = $line;
+                if (count($children = explode('::', $line)) > 1) {
+                    $class['name'] = trim($children[0]);
+                    $class['childOf'] = trim($children[1]);
+                }
 			}
 			elseif (substr($line, 0, 2) === '  ') {
-				$class[$i]['methods'][] = $this->parseMethod(substr($line, 2));
+                if (substr(trim($line), -1) === ')') {
+                    $class['methods'][] = $this->parseMethod(substr($line, 2));
+                }
+                else {
+                    $class['properties'][] = $this->parseProperty(substr($line, 2));
+                }
 			}
 			else {
 				continue;
@@ -72,36 +82,54 @@ class UMLparser implements ParserInterface
 		return $class;
 	}
 
+    public function parseProperty($str)
+    {
+        $property = array(
+            'access' => $this->parseAccess(substr($str, 0, 1)),
+        );
+
+        $value = explode('=', $str);
+        $property['name'] = substr(trim($value[0]), 2);
+        if (count($value) > 1) {
+            $property['value'] = trim(Helper::parseValue(trim($value[1])));
+        }
+
+        return $property;
+    }
+
 	public function parseMethod($str)
 	{
-		$property = array(
-			'name' => '',
+		$method = array(
 			'access' => $this->parseAccess(substr($str, 0, 1)),
 		);
 		preg_match('/(?<=\s).*?(?=\()/', $str, $name);
-		$property['name'] = $name[0];
+		$method['name'] = $name[0];
 
         if (preg_match('/\((.+?)\)$/', $str, $args)) {
-            $property['arguments'] = array();
-
-            $arguments = explode(', ', $args[1]);
-            foreach ($arguments as $arg) {
-                @list($argName, $argValue) = explode('=', $arg);
-                $property['arguments'][] = array(
-                    'name' => trim($argName),
-                    'value' => ($argValue !== 0 && !empty($argValue)
-                                    ? Helper::parseValue(trim($argValue))
-                                    : null
-                               ),
-                );
-            }
+            $method['arguments'] = $this->parseArguments($args[1]);
         }
 
-		return $property;
+		return $method;
 	}
 
-	public function parseArguments($str)
-	{
+	public function parseArguments($args)
+    {
+        $argumentsList = array();
+
+        $arguments = explode(', ', $args);
+
+        foreach ($arguments as $arg) {
+            @list($argName, $argValue) = explode('=', $arg);
+            $argumentsList[] = array(
+                'name' => trim($argName),
+                'value' => ($argValue !== 0 && !empty($argValue)
+                                ? Helper::parseValue(trim($argValue))
+                                : null
+                           ),
+            );
+        }
+
+        return $argumentsList;
 	}
 
 	public function parseAccess($str)

@@ -17,10 +17,14 @@ class UMLparserTest extends \PHPUnit_Framework_TestCase
 	{
 		$uml = <<<EOT
 ClassName
+  # propertyName
+  - propertyWithValue = true
   + method()
 
-AnotherClass
+AnotherClass :: ClassName
   + anotherMethod(someParam, otherFoo = null, bar = true)
+  - privateMethod()
+  # protectedMethod(param)
 EOT;
 		var_dump($this->parser->parse($uml));
 	}
