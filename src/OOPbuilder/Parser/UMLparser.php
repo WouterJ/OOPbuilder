@@ -38,12 +38,40 @@ class UMLparser implements ParserInterface
             }
         }
 
-        foreach ($parts['classes'] as $class) {
-            $info[] = $this->parseClass($class);
+        foreach ($parts['classes'] as $i => $class) {
+            $info[$i] = $this->parseClass($class);
         }
+        foreach ($parts['interfaces'] as $i => $interface) {
+            $info[$i] = $this->parseInterface($interface);
+        }
+        sort($info);
 
 		return $info;
 	}
+
+    public function parseInterface($data)
+    {
+        $interface = array(
+            'type' => 'interface',
+            'name' => '',
+            'methods' => array(),
+        );
+
+        foreach ($data as $line) {
+			if (substr($line, 0, 2) !== '  ') {
+				$class['name'] = $line;
+                if (count($children = explode('::', $line)) > 1) {
+                    $class['name'] = trim($children[0]);
+                    $class['implements'] = trim($children[1]);
+                }
+            }
+            else {
+                $interface['methods'][] = $this->parseMethod($line);
+            }
+        }
+
+        return $interface;
+    }
 
 	public function parseClass($data)
 	{
@@ -55,27 +83,24 @@ class UMLparser implements ParserInterface
         );
 
 		foreach ($data as $line) {
-			if ($line !== 0 && empty($line)) {
-				continue;
-			}
-
 			if (substr($line, 0, 2) !== '  ') {
 				$class['name'] = $line;
                 if (count($children = explode('::', $line)) > 1) {
                     $class['name'] = trim($children[0]);
-                    $class['childOf'] = trim($children[1]);
+                    $class['implements'] = trim($children[1]);
+                }
+                else if(count($children = explode(':', $line)) > 1) {
+                    $class['name'] = trim($children[0]);
+                    $class['extends'] = trim($children[1]);
                 }
 			}
-			elseif (substr($line, 0, 2) === '  ') {
+			else {
                 if (substr(trim($line), -1) === ')') {
                     $class['methods'][] = $this->parseMethod(substr($line, 2));
                 }
                 else {
                     $class['properties'][] = $this->parseProperty(substr($line, 2));
                 }
-			}
-			else {
-				continue;
 			}
 		}
 

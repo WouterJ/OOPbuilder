@@ -16,12 +16,16 @@ class UMLparserTest extends \PHPUnit_Framework_TestCase
 	public function testClassName()
 	{
 		$uml = <<<EOT
+<<SomeInterface>>
+  + anotherMethod(someParam, otherFoo = null, bar = true)
+  - privateMethod()
+
 ClassName
   # propertyName
   - propertyWithValue = true
   + method()
 
-AnotherClass :: ClassName
+AnotherClass : ClassName
   + anotherMethod(someParam, otherFoo = null, bar = true)
   - privateMethod()
   # protectedMethod(param)
