@@ -12,11 +12,13 @@ class Helper
      */
     public static function parseValue($value)
     {
-        if (is_numeric($value)                                  # interger/float
-            || in_array($value, array('true', 'false', 'null')) # true/false/null
-            || preg_match('/^array\((.*?)\)$/i', $value)        # array
-            || preg_match('/^new\s(.*?)/', $value)              # instance
-            || in_array($value, array("''", '""'))              # empty string
+        if (is_numeric($value)                                      # interger/float
+            || in_array($value, array('true', 'false', 'null'))     # true/false/null
+            || preg_match('/^array\((.*?)\)$/i', $value)            # array
+            || preg_match('/^new\s(.*?)/', $value)                  # instance
+            || (in_array(substr($value, 0, 1), array("'", '"'))     # already quoted string
+                && in_array(substr($value, -1), array("'", '"'))
+               )
            ) {
             $valueSource = $value;
         }
