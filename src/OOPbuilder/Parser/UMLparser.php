@@ -126,6 +126,7 @@ class UMLparser implements ParserInterface
 	{
 		$method = array(
 			'access' => $this->parseAccess(substr($str, 0, 1)),
+            'arguments' => array(),
 		);
 		preg_match('/(?<=\s).*?(?=\()/', $str, $name);
 		$method['name'] = $name[0];
