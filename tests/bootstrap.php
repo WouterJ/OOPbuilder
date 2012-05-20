@@ -12,6 +12,9 @@ $files = array(
 
 	'Parser/ParserInterface',
 	'Parser/UMLparser',
+
+	'File/File',
+	'File/FileMapper',
 );
 
 foreach ($files as $file) {
