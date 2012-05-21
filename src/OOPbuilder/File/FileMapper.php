@@ -13,9 +13,19 @@ class FileMapper
         $this->basepath = $this->checkBasepath($basepath);
     }
 
+    public function getByExtension($extension, $basepath = null)
+    {
+        return array_map(array($this, 'populate'), glob($this->checkBasepath($basepath).'*.'.$extension);
+    }
+
+    public function populate($name)
+    {
+        return new File($name);
+    }
+
     public function create(File $file, $basepath = null)
     {
-        $basepath = $this->checkBasePath($basepath);
+        $basepath = $this->checkBasepath($basepath);
         $path = $basepath.$file->getName().'.'.$file->getExtension();
         if (file_exists($path)) {
             throw new \InvalidArgumentException('The FileMapper::create() can only be used on non existing files, the current file ('.$path.') does already exists, use FileMapper::update() instead');
