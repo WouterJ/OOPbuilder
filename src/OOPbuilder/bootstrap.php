@@ -53,8 +53,12 @@ $container['config.data'] = function($c) {
 
     return $umlParser->parse(file_get_contents($c));
 };
-$container['config.init'] = function($c) {
+$container['config'] = function($c) {
     $config = new Config();
 
-    foreach ($c['config.umlfile'] as
+    foreach ($c['config.data'] as $setting => $value) {
+        $config->set($setting, $value);
+    }
+
+    return $config;
 };
