@@ -67,8 +67,9 @@ $container['config'] = function ($c) {
     return $config;
 };
 
+$container['oopbuilder.config'] = $container['config'];
 $container['oopbuilder'] = function ($c) {
-    $config = $c['config'];
+    $config = $c['oopbuilder.config'];
 
     return new OOPbuilder($config);
 };
