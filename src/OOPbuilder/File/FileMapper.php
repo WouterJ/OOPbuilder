@@ -21,7 +21,11 @@ class FileMapper
 
     public function populate($name)
     {
-        return new File($name);
+        try {
+            return new File($name);
+        } catch (\InvalidArgumentException $e) {
+            throw $e;
+        }
     }
 
     public function create($file, $basepath = null)

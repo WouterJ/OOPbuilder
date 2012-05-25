@@ -74,5 +74,9 @@ $container['oopbuilder.config'] = $container['config'];
 $container['oopbuilder'] = function ($c) {
     $config = $c['oopbuilder.config'];
 
-    return new OOPbuilder($config);
+    try {
+        $oopBuilder = new OOPbuilder($config);
+    } catch (\InvalidArgumentException $e) {
+        echo $e->getMessage();
+    }
 };
