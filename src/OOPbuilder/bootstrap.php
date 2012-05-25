@@ -18,6 +18,9 @@ $container['autoloader.files'] = array(
         'OOPbuilder',
         'Config',
 
+        'Exception/BadArgumentTypeException',
+        'Exception/BadInstanceOfArgumentException',
+
         'Builder/BuilderInterface',
         'Builder/ClassBuilder',
         'Builder/MethodBuilder',
