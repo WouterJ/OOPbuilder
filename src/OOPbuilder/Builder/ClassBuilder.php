@@ -1,32 +1,41 @@
 <?php
 
+/**
+ * This file is part of the OOPbuilder project
+ *
+ * @author Wouter J <http://wouterj.nl>
+ * @license Creative Commons Attribution Share-Alike <http://creativecommons.org/licenses/by-sa/3.0/>
+ */
+
 namespace OOPbuilder\Builder;
 
 use OOPbuilder\Builder\MethodBuilder;
 use OOPbuilder\Exception\BadInstanceOfArgumentException;
 
+/**
+ * This class builds the class of our project
+ */
 class Classbuilder implements BuilderInterface
 {
-    /**
-     * @var string
-     */
     protected $name;
-
-    /**
-     * @var array
-     */
     protected $properties = array();
-
-    /**
-     * @var array
-     */
     protected $methods = array();
 
+	/**
+	 * Constructor.
+	 *
+	 * @param string $name The name of the class
+	 */
     public function __construct($name)
     {
         $this->name = ucfirst($name);
     }
 
+	/**
+	 * Add a method to the class.
+	 *
+	 * @param MethodBuilder $method A MethodBuilder instance with method information
+	 */
     public function addMethod($method)
     {
         if (!($method instanceof MethodBuilder)) {
@@ -41,6 +50,11 @@ class Classbuilder implements BuilderInterface
         $this->methods[] = $method;
     }
 
+	/**
+	 * Add a property to the class.
+	 *
+	 * @param PropertyBuilder $property A PropertyBuilder instance with property information
+	 */
     public function addProperty($property)
     {
         if (!($property instanceof PropertyBuilder)) {
@@ -56,9 +70,9 @@ class Classbuilder implements BuilderInterface
     }
 
     /**
-     * Builds a class
+     * Build the class.
      *
-     * @return string $class The source of the class
+     * @return string The source of the class
      */
     public function build()
     {
