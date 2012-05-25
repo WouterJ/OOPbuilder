@@ -63,17 +63,16 @@ class Classbuilder implements BuilderInterface
     public function build()
     {
 		$class = 'class '.$this->name;
-		if ($this->properties == array() && $this->methods == array()) {
+		if ((array() === $this->properties) && (array() === $this->methods)) {
 			$class .= ' {}';
-		}
-		else {
+		} else {
 			$class .= "\n{";
 
 			foreach ($this->properties as $property) {
 				$class .= "\n\t".$property->build();
 			}
 
-			if (substr($class, -1) !== '{' && $this->methods !== array()) {
+			if (('{' !== substr($class, -1)) &&  (array() !== $this->methods)) {
 				$class .= "\n";
 			}
 

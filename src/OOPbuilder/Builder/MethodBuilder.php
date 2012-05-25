@@ -58,7 +58,7 @@ class MethodBuilder implements BuilderInterface
     public function build()
     {
         $method = "\t".$this->access.' function '.$this->name.'('.$this->generateArguments().")\n\t{";
-        if ($this->code !== null) {
+        if (null !== $this->code) {
             $method .= "\n\t\t".$this->code;
         }
 

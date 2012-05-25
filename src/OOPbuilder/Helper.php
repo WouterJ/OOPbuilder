@@ -21,8 +21,7 @@ class Helper
                )
            ) {
             $valueSource = $value;
-        }
-        else {
+        } else {
             $valueSource = "'".$value."'";
         }
 

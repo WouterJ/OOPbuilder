@@ -42,7 +42,7 @@ class FileMapper
         $basepath = $this->checkBasepath($basepath);
         $path = $basepath.$file->getName().'.'.$file->getExtension();
 
-        if (file_exists($path)) {
+        if (true === file_exists($path)) {
             throw new \InvalidArgumentException(
                       sprintf(
                           'The FileMapper::create() can only be used on non existing files, the current file (%s) does already exists, use FileMapper::update() instead',
@@ -52,10 +52,9 @@ class FileMapper
         }
 
         $f = fopen($path, 'w');
-        if ($f == false) {
+        if (false === $f) {
             throw new \LogicException('We cannot create the file');
-        }
-        else {
+        } else {
             fwrite($f, $file->getContent());
         }
         fclose($f);
@@ -76,7 +75,7 @@ class FileMapper
                   );
         }
 
-        if (!file_exists($file->getPath())) {
+        if (false === file_exists($file->getPath())) {
             throw new \InvalidArgumentException(
                       sprintf(
                           'FileMapper::update() can only be used on existing files, the current file (%s) does not exists, use FileMapper::create() instead',
@@ -86,7 +85,7 @@ class FileMapper
         }
 
         $f = fopen($file->getPath(), 'w');
-        if ($f == false) {
+        if (false === $f) {
             throw new \LogicException('We cannot open the file ('.$path.')');
         }
         else {
@@ -109,7 +108,7 @@ class FileMapper
         }
 
         $path = $file->getPath();
-        if (!file_exists($path)) {
+        if (false === file_exists($path)) {
             throw new \InvalidArgumentException(
                            sprintf(
                                'FileMapper::delete() can only delete files who exists, file (%s) does not exists',

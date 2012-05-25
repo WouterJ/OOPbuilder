@@ -16,23 +16,20 @@ class UMLparser implements ParserInterface
         $i = -1;
 
 		foreach (preg_split('/((\r?\n)|(\n?\r))/', $data) as $line) {
-			if ($line !== 0 && empty($line)) {
+			if ((0 !== $line) && empty($line)) {
 				continue;
 			}
 
-			if (substr($line, 0, 2) !== '  ') {
-                if (substr($line, 0, 2) == '<<') {
+			if ('  ' !== substr($line, 0, 2)) {
+                if ('<<' == substr($line, 0, 2)) {
                     $parts['interfaces'][++$i] = array($line);
-                }
-                else {
+                } else {
                     $parts['classes'][++$i] = array($line);
                 }
-            }
-            else {
+            } else {
                 if (isset($parts['classes'][$i])) {
                     $parts['classes'][$i][] = $line;
-                }
-                else {
+                } else {
                     $parts['interfaces'][$i][] = $line;
                 }
             }
@@ -58,14 +55,13 @@ class UMLparser implements ParserInterface
         );
 
         foreach ($data as $line) {
-			if (substr($line, 0, 2) !== '  ') {
+			if ('  ' !== substr($line, 0, 2)) {
 				$interface['name'] = trim($line, '<>');
-                if (count($children = explode('::', $line)) > 1) {
+                if (1 < count($children = explode('::', $line))) {
                     $interface['name'] = trim($children[0]);
                     $interface['implements'] = trim($children[1]);
                 }
-            }
-            else {
+            } else {
                 $interface['methods'][] = $this->parseMethod($line);
             }
         }
@@ -83,22 +79,19 @@ class UMLparser implements ParserInterface
         );
 
 		foreach ($data as $line) {
-			if (substr($line, 0, 2) !== '  ') {
+			if ('  ' !== substr($line, 0, 2)) {
 				$class['name'] = $line;
-                if (count($children = explode('::', $line)) > 1) {
+                if (1 < count($children = explode('::', $line))) {
                     $class['name'] = trim($children[0]);
                     $class['implements'] = trim($children[1]);
-                }
-                else if(count($children = explode(':', $line)) > 1) {
+                } else if(1 < count($children = explode(':', $line))) {
                     $class['name'] = trim($children[0]);
                     $class['extends'] = trim($children[1]);
                 }
-			}
-			else {
-                if (substr(trim($line), -1) === ')') {
+			} else {
+                if (')' === substr(trim($line), -1)) {
                     $class['methods'][] = $this->parseMethod(substr($line, 2));
-                }
-                else {
+                } else {
                     $class['properties'][] = $this->parseProperty(substr($line, 2));
                 }
 			}
@@ -115,7 +108,7 @@ class UMLparser implements ParserInterface
 
         $value = explode('=', $str);
         $property['name'] = substr(trim($value[0]), 2);
-        if (count($value) > 1) {
+        if (1 < count($value)) {
             $property['value'] = trim(Helper::parseValue(trim($value[1])));
         }
 
@@ -168,8 +161,7 @@ class UMLparser implements ParserInterface
 
 		if (isset($umlAccess[$str])) {
 			return $umlAccess[$str];
-		}
-		else {
+		} else {
 			return (Helper::is_access($str)
 						? $str
 						: 'public'
@@ -177,54 +169,3 @@ class UMLparser implements ParserInterface
 		}
 	}
 }
-
-/*
-
-Array (
-	[0] => Array (
-		[type] => 'class',
-		[name] => 'nameOfTheClass',
-		[childOf] => 'someInterfaceOrClass',
-		[properties] => Array (
-			[0] => Array (
-				[name] => 'baz',
-				[access] => 'protected',
-				[value] => 'some default value',
-			),
-			[1] => Array (
-				...
-			),
-			...
-		),
-		[methods] => Array (
-			[0] => Array (
-				[name] => 'someMethod',
-				[access] => 'public',
-				[arguments] => Array (
-                    [0] => Array (
-                        [name] => 'foo',
-                        [value] => 'some default foovalue',
-                    ),
-                    [1] => Array (
-                        ...
-                    ),
-                    ...
-				),
-			),
-			[1] => Array (
-				...
-			),
-			...
-		)
-	),
-	[1] => Array (
-		[type] => 'interface',
-		[name] => 'nameOfTheClass',
-		[childOf] => 'someInterface',
-		[methods] => Array (
-			...
-		),
-	),
-	...
-)
- */

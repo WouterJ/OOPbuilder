@@ -26,8 +26,8 @@ class File
 
     public function __construct($name, $extension = null)
     {
-        if ($extension == null) {
-            if (strpos($name, '.') === false) {
+        if (null === $extension) {
+            if (false === strpos($name, '.')) {
                 throw new \InvalidArgumentException('File::__construct() expect a file-extension as second argument, or a dot in the file name (first argument), none of these are found.');
             }
 
