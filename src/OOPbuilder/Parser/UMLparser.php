@@ -11,8 +11,18 @@ namespace OOPbuilder\Parser;
 
 use OOPbuilder\Helper;
 
+/**
+ * A parser class for parsing UML files
+ */
 class UMLparser implements ParserInterface
 {
+	/**
+	 * Parse the given data
+	 *
+	 * @param string $data The content of the UML file
+	 * 
+	 * @return array An assoc-array with all data
+	 */
 	public function parse($data)
 	{
 		$info = array();
@@ -53,6 +63,13 @@ class UMLparser implements ParserInterface
 		return $info;
 	}
 
+	/**
+	 * Parses an interface
+	 *
+	 * @param array $data The array with the lines of the interface
+	 *
+	 * @return array An assoc-array with all interface data
+	 */
     public function parseInterface($data)
     {
         $interface = array(
@@ -76,6 +93,13 @@ class UMLparser implements ParserInterface
         return $interface;
     }
 
+	/**
+	 * Parses a class
+	 *
+	 * @param array $data The array with the lines of the class
+	 *
+	 * @return array An assoc-array with all class data
+	 */
 	public function parseClass($data)
 	{
         $class = array(
@@ -107,6 +131,13 @@ class UMLparser implements ParserInterface
 		return $class;
 	}
 
+	/**
+	 * Parses a property
+	 *
+	 * @param string $str The property line
+	 *
+	 * @return array An assoc-array with all data of the property
+	 */
     public function parseProperty($str)
     {
         $property = array(
@@ -122,6 +153,13 @@ class UMLparser implements ParserInterface
         return $property;
     }
 
+	/**
+	 * Parses a method
+	 *
+	 * @param string $str The method line
+	 * 
+	 * @return array An assoc-array with all data of the method
+	 */
 	public function parseMethod($str)
 	{
 		$method = array(
@@ -138,6 +176,13 @@ class UMLparser implements ParserInterface
 		return $method;
 	}
 
+	/**
+	 * Parses arguments
+	 *
+	 * @param string $args All arguments in one line with ', ' between them
+	 * 
+	 * @return array An assoc-array with all arguments and data
+	 */
 	public function parseArguments($args)
     {
         $argumentsList = array();
@@ -158,6 +203,13 @@ class UMLparser implements ParserInterface
         return $argumentsList;
 	}
 
+	/**
+	 * Parses the access
+	 *
+	 * @param string $str The access
+	 *
+	 * @return string The access, parsed
+	 */
 	public function parseAccess($str)
 	{
 		$umlAccess = array(

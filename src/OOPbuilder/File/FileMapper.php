@@ -12,10 +12,18 @@ namespace OOPbuilder\File;
 use OOPbuilder\File\File;
 use OOPbuilder\Exception\BadInstanceOfArgumentException;
 
+/**
+ * The FileMapper is used to connect the filesystem with the File class
+ */
 class FileMapper
 {
     protected $basepath;
 
+	/**
+	 * Sets the basepath of the files
+	 *
+	 * @param string $basepath
+	 */
     public function setBasePath($basepath)
     {
         $this->basepath = $this->checkBasepath($basepath);

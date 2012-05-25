@@ -11,23 +11,22 @@ namespace OOPbuilder\Builder;
 
 use OOPbuilder\Helper;
 
+/**
+ * Build a Property
+ */
 class PropertyBuilder implements BuilderInterface
 {
-    /**
-     * @var string
-     */
     protected $name;
-
-    /**
-     * @var string
-     */
     protected $access;
-
-    /**
-     * @var string
-     */
     protected $defaultValue;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param string $name		   The name of the property
+	 * @param string $access	   Optional The access of the property, can be public(default), protected, or private
+	 * @param mixed  $defaultValue Optional The default value of the parameter
+	 */
     public function __construct($name, $access = 'public', $defaultValue = null)
     {
         $this->name = $name;
@@ -42,9 +41,9 @@ class PropertyBuilder implements BuilderInterface
     }
 
     /**
-     * Creates the property code
+     * Create the property.
      *
-     * @return string $property The source of one property
+     * @return string The source of the property
      */
     public function build()
     {

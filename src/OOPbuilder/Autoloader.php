@@ -9,11 +9,19 @@
 
 namespace OOPbuilder;
 
+/**
+ * Autoloads the files
+ */
 class Autoloader
 {
     protected $classes;
     protected $basepath = __DIR__;
 
+	/**
+	 * Sets the basepath of the files
+	 *
+	 * @param string $basepath The basepath
+	 */
     public function setBasepath($basepath)
     {
         $this->basepath = (!in_array(substr($basepath, -1), array('/', '\\'))
@@ -22,6 +30,11 @@ class Autoloader
                           );
     }
 
+	/**
+	 * Sets a class name
+	 *
+	 * @param string $class The classname with their namespaces
+	 */
     public function set($class)
     {
         $this->classes = $class;
@@ -41,6 +54,9 @@ class Autoloader
         return $this->classes[$class];
     }
 
+	/**
+	 * Autoload the files.
+	 */
     public function run()
     {
         foreach ($this->classes as $class) {
