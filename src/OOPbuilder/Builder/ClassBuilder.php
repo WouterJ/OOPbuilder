@@ -2,6 +2,9 @@
 
 namespace OOPbuilder\Builder;
 
+use OOPbuilder\Builder\MethodBuilder;
+use OOPbuilder\Exception\BadInstanceOfArgumentException;
+
 class Classbuilder implements BuilderInterface
 {
     /**
@@ -24,13 +27,31 @@ class Classbuilder implements BuilderInterface
         $this->name = ucfirst($name);
     }
 
-    public function addMethod(MethodBuilder $method)
+    public function addMethod($method)
     {
+        if (!($method instanceof MethodBuilder)) {
+            throw new BadInstanceOfArgumentException(
+                    sprintf(
+                        'The first argument of Classbuilder::addMethod() needs to be an instance of OOPbuilder\Builder\MethodBuilder, an instance of %s is given', 
+                        get_class($method)
+                    )
+                  );
+        }
+        
         $this->methods[] = $method;
     }
 
-    public function addProperty(PropertyBuilder $property)
+    public function addProperty($property)
     {
+        if (!($property instanceof PropertyBuilder)) {
+            throw new BadInstanceOfArgumentException(
+                    sprintf(
+                        'The first argument of Classbuilder::addProperty() needs to be an instance of OOPbuilder\Builder\PropertyBuilder, an instance of %s is given', 
+                        get_class($property)
+                    )
+                  );
+        }
+
         $this->properties[] = $property;
     }
 

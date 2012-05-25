@@ -3,6 +3,7 @@
 namespace OOPbuilder\File;
 
 use OOPbuilder\File\File;
+use OOPbuilder\Exception\BadInstanceOfArgumentException;
 
 class FileMapper
 {
@@ -23,12 +24,27 @@ class FileMapper
         return new File($name);
     }
 
-    public function create(File $file, $basepath = null)
+    public function create($file, $basepath = null)
     {
+        if (!($file instanceof File)) {
+            throw new BadInstanceOfArgumentException(
+                      sprintf(
+                          'The first argument of FileMapper::create() needs to be an instance of OOPbuilder\File\File, an instance of %s is given', 
+                          get_class($file)
+                      )
+                  );
+        }
+
         $basepath = $this->checkBasepath($basepath);
         $path = $basepath.$file->getName().'.'.$file->getExtension();
+
         if (file_exists($path)) {
-            throw new \InvalidArgumentException('The FileMapper::create() can only be used on non existing files, the current file ('.$path.') does already exists, use FileMapper::update() instead');
+            throw new \InvalidArgumentException(
+                      sprintf(
+                          'The FileMapper::create() can only be used on non existing files, the current file (%s) does already exists, use FileMapper::update() instead',
+                          $path
+                      )
+                  );
         }
 
         $f = fopen($path, 'w');
@@ -45,10 +61,24 @@ class FileMapper
         return $file;
     }
 
-    public function update(File $file)
+    public function update($file)
     {
+        if (!($file instanceof File)) {
+            throw new BadInstanceOfArgumentException(
+                      sprintf(
+                          'The first argument of FileMapper::update() needs to be an instance of OOPbuilder\File\File, an instance of %s is given', 
+                          get_class($file)
+                      )
+                  );
+        }
+
         if (!file_exists($file->getPath())) {
-            throw new \InvalidArgumentException('FileMapper::update() can only be used on existing files, the current file ('.$path.') does not exists, use FileMapper::create() instead');
+            throw new \InvalidArgumentException(
+                      sprintf(
+                          'FileMapper::update() can only be used on existing files, the current file (%s) does not exists, use FileMapper::create() instead',
+                          $path
+                      )
+                  );
         }
 
         $f = fopen($file->getPath(), 'w');
@@ -63,11 +93,25 @@ class FileMapper
         return $file;
     }
 
-    public function delete(File $file)
+    public function delete($file)
     {
+        if (!($file instanceof File)) {
+            throw new BadInstanceOfArgumentException(
+                      sprintf(
+                          'The first argument of FileMapper::update() needs to be an instance of OOPbuilder\File\File, an instance of %s is given', 
+                          get_class($file)
+                      )
+                  );
+        }
+
         $path = $file->getPath();
         if (!file_exists($path)) {
-            throw new \InvalidArgumentException('FileMapper::delete() can only delete files who exists, file ('.$path.') does not exists');
+            throw new \InvalidArgumentException(
+                           sprintf(
+                               'FileMapper::delete() can only delete files who exists, file (%s) does not exists',
+                               $path
+                           )
+                       );
         }
 
         unlink($path);
@@ -79,7 +123,12 @@ class FileMapper
             return $this->basepath;
         }
         if (gettype($path) !== 'string') {
-            throw new \InvalidArgumentException('The paths in FileMapper needs to be a string');
+            throw new \InvalidArgumentException(
+                           sprintf(
+                               'The paths in FileMapper::checkBasepath() needs to be a string, an %s given',
+                               gettype($path)
+                           )
+                       );
         }
 
         return $path.(!in_array(substr($path, 0, -1), array('/', '\\'))

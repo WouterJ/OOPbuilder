@@ -23,7 +23,12 @@ class Autoloader
     public function get($class)
     {
         if (!isset($this->classes[$class])) {
-            throw new \InvalidArgumentException('The class '.$class.' is not found in Autloader.');
+            throw new \InvalidArgumentException(
+                          sprintf(
+                              'The class %s is not found in Autloader',
+                              $class
+                          )
+                      );
         }
 
         return $this->classes[$class];

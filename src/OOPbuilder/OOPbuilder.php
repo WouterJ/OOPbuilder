@@ -13,7 +13,12 @@ class OOPbuilder
         if ($config instanceof Config) {
             $this->config = $config;
         } else {
-            throw new InvalidArgumentException('The first parameter of OOPbuilder::__construct() needs to be an instance of OOPbuilder\Config\Config, '.get_class($config).'given');
+            throw new InvalidArgumentException(
+                          sprintf(
+                              'The first parameter of OOPbuilder::__construct() needs to be an instance of OOPbuilder\Config\Config, %s given',
+                              get_class($config)
+                          )
+                      );
         }
     }
 }

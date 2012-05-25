@@ -14,7 +14,12 @@ class Config
     public function get($id)
     {
         if (!isset($this->$setting[$id])) {
-            throw new InvalidArgumentException('The '.$id.' setting does not exists in Config::get()');
+            throw new \InvalidArgumentException(
+                          sprintf(
+                              'The %s setting does not exists in Config::get()',
+                              $id
+                          )
+                      );
         }
 
         return $this->$setting[$id];

@@ -28,7 +28,7 @@ class File
     {
         if ($extension == null) {
             if (strpos($name, '.') === false) {
-                throw new \InvalidArgumentException('File::__construct() expect a fileextension as second argument, or a dot in the file name. Non of these are found.');
+                throw new \InvalidArgumentException('File::__construct() expect a file-extension as second argument, or a dot in the file name (first argument), none of these are found.');
             }
 
             $info = explode('.', $name);
