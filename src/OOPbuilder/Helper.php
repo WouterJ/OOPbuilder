@@ -9,13 +9,17 @@
 
 namespace OOPbuilder;
 
+/**
+ * A class who provide some extra functions
+ */
 class Helper
 {
     /**
      * Parses a value to a nice value
      *
-     * @param string $value
-     * @return string $valueSource The resulted value source
+     * @param string $value The value
+     *
+     * @return string The resulted value source
      */
     public static function parseValue($value)
     {
@@ -39,7 +43,8 @@ class Helper
      * Validates an access
      *
      * @param string $access The access input
-     * @return boolean $is_access When it is a valid access
+     *
+     * @return boolean When it is a valid access
      */
     public static function is_access($value)
     {

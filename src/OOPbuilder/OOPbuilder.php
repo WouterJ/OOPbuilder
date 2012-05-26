@@ -11,10 +11,18 @@ namespace OOPbuilder;
 
 use OOPbuilder\Config;
 
+/**
+ * The frontcontroller of OOPbuilder, this handles everything
+ */
 class OOPbuilder
 {
     protected $config;
 
+    /**
+     * Constructor.
+     *
+     * @param OOPbuilder\Config\Config $config The config repository
+     */
     public function __construct($config)
     {
         if ($config instanceof Config) {
