@@ -35,6 +35,8 @@ class Classbuilder implements BuilderInterface
 	 * Add a method to the class.
 	 *
 	 * @param MethodBuilder $method A MethodBuilder instance with method information
+     *
+     * @throws OOPbuilder\Exception\BadInstanceOfArgumentException When $method is not an instance of MethodBuilder
 	 */
     public function addMethod($method)
     {
@@ -54,6 +56,8 @@ class Classbuilder implements BuilderInterface
 	 * Add a property to the class.
 	 *
 	 * @param PropertyBuilder $property A PropertyBuilder instance with property information
+     *
+     * @throws OOPbuilder\Exception\BadInstanceOfArgumentException When $property is not an instance of PropertyBuilder
 	 */
     public function addProperty($property)
     {

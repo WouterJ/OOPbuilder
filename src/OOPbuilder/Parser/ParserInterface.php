@@ -11,5 +11,10 @@ namespace OOPbuilder\Parser;
 
 interface ParserInterface
 {
+    /**
+     * Parse the given data in the given format
+     *
+     * @param string $data The data
+     */
 	public function parse($data);
 }

@@ -33,13 +33,22 @@ class Autoloader
 	/**
 	 * Sets a class name
 	 *
-	 * @param string $class The classname with their namespaces
+	 * @param array $class An array with the classnames in the keys and their namespaces in the value
 	 */
     public function set($class)
     {
         $this->classes = $class;
     }
 
+    /**
+     * Gets a namespace
+     *
+     * @param string $class The classname
+     *
+     * @throws \InvalidArgumentException When $class is not found
+     *
+     * @return string
+     */
     public function get($class)
     {
         if (!isset($this->classes[$class])) {

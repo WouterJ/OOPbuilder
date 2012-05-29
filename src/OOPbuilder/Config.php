@@ -33,6 +33,8 @@ class Config
 	 * @param string $id The name of the setting
 	 *
 	 * @return mixed The value of the given setting
+     *
+     * @throws \InvalidArgumentException When $id does not exists
 	 */
     public function get($id)
     {

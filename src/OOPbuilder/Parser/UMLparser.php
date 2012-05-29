@@ -17,10 +17,8 @@ use OOPbuilder\Helper;
 class UMLparser implements ParserInterface
 {
 	/**
-	 * Parse the given data
-	 *
-	 * @param string $data The content of the UML file
-	 * 
+     * {@inheritdoc}
+     *
 	 * @return array An assoc-array with all data
 	 */
 	public function parse($data)

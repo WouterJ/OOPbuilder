@@ -22,6 +22,8 @@ class OOPbuilder
      * Constructor.
      *
      * @param OOPbuilder\Config\Config $config The config repository
+     *
+     * @throws \InvalidArgumentException When $config is not an instance of OOPbuilder\Config
      */
     public function __construct($config)
     {
