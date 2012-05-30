@@ -9,17 +9,17 @@
 namespace OOPbuilder;
 
 /**
- * This class is the repository for the config
+ * This class is the repository for the config.
  */
 class Config
 {
     protected $setting = array();
 
 	/**
-	 * Sets a setting
+	 * Sets a setting.
 	 *
-	 * @param string $id The name of the setting
-	 * @param mixed $value The value of the setting
+	 * @param string $id    The name of the setting
+	 * @param mixed  $value The value of the setting
 	 */
     public function set($id, $value)
     {
@@ -27,7 +27,7 @@ class Config
     }
 
 	/**
-	 * Gest a setting
+	 * Gets a setting.
 	 *
 	 * @param string $id The name of the setting
 	 *

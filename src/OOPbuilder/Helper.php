@@ -9,12 +9,12 @@
 namespace OOPbuilder;
 
 /**
- * A class who provide some extra functions
+ * A class who provide some extra functions.
  */
 class Helper
 {
     /**
-     * Parses a value to a nice value
+     * Parses a value to a nice value.
      *
      * @param string $value The value
      *
@@ -39,7 +39,7 @@ class Helper
     }
 
     /**
-     * Validates an access
+     * Validates an access.
      *
      * @param string $access The access input
      *

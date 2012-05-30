@@ -11,7 +11,7 @@ namespace OOPbuilder\Builder;
 use OOPbuilder\Helper;
 
 /**
- * Build a Property
+ * Build a Property.
  */
 class PropertyBuilder implements BuilderInterface
 {

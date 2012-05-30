@@ -12,7 +12,7 @@ use OOPbuilder\File\File;
 use OOPbuilder\Exception\BadInstanceOfArgumentException;
 
 /**
- * The FileMapper is used to connect the filesystem with the File class
+ * The FileMapper is used to connect the filesystem with the OOPbuilder\File\File class.
  */
 class FileMapper
 {
@@ -29,10 +29,10 @@ class FileMapper
     }
 
     /**
-     * Get all files by extension
+     * Get all files by extension.
      *
      * @param string $extension
-     * @param string $basepath The basepath, if it is not equal to the global setting
+     * @param string $basepath  The basepath, if it is not equal to the global setting
      *
      * @return array
      */
@@ -42,7 +42,7 @@ class FileMapper
     }
 
     /**
-     * Convert data to an object
+     * Convert data to an object.
      *
      * @param string $name The name of the file
      *
@@ -58,10 +58,10 @@ class FileMapper
     }
 
     /**
-     * Create a file on the filesystem
+     * Create a file on the filesystem.
      *
-     * @param OOPbuilder\File\File $file The file object with the information
-     * @param string $basepath The basepath, if it is not equal to the global setting
+     * @param OOPbuilder\File\File $file     The file object with the information
+     * @param string               $basepath The basepath, if it is not equal to the global setting
      *
      * @return OOPbuilder\File\File The file with the path setted
      *
@@ -105,7 +105,7 @@ class FileMapper
     }
 
     /**
-     * Update a file on the filesystem
+     * Update a file on the filesystem.
      *
      * @param OOPbuilder\File\File $file The file object with all data
      * 
@@ -147,7 +147,7 @@ class FileMapper
     }
 
     /**
-     * Delete a file on the file system
+     * Delete a file on the file system.
      *
      * @param OOPbuilder\File\File $file The file object with all data
      *

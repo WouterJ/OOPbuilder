@@ -12,7 +12,7 @@ use OOPbuilder\Builder\MethodBuilder;
 use OOPbuilder\Exception\BadInstanceOfArgumentException;
 
 /**
- * This class builds the class of our project
+ * This class builds the class of our project.
  */
 class Classbuilder implements BuilderInterface
 {
@@ -33,7 +33,7 @@ class Classbuilder implements BuilderInterface
 	/**
 	 * Add a method to the class.
 	 *
-	 * @param MethodBuilder $method A MethodBuilder instance with method information
+	 * @param OOPbuilder\Builder\MethodBuilder $method A MethodBuilder instance with method information
      *
      * @throws OOPbuilder\Exception\BadInstanceOfArgumentException When $method is not an instance of MethodBuilder
 	 */
@@ -54,7 +54,7 @@ class Classbuilder implements BuilderInterface
 	/**
 	 * Add a property to the class.
 	 *
-	 * @param PropertyBuilder $property A PropertyBuilder instance with property information
+	 * @param OOPbuilder\Builder\PropertyBuilder $property A PropertyBuilder instance with property information
      *
      * @throws OOPbuilder\Exception\BadInstanceOfArgumentException When $property is not an instance of PropertyBuilder
 	 */

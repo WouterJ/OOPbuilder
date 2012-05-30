@@ -11,7 +11,7 @@ namespace OOPbuilder\Builder;
 use OOPbuilder\Helper;
 
 /**
- * Build a method
+ * Build a method.
  */
 class MethodBuilder implements BuilderInterface
 {

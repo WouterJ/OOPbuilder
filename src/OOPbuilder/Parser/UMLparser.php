@@ -11,7 +11,7 @@ namespace OOPbuilder\Parser;
 use OOPbuilder\Helper;
 
 /**
- * A parser class for parsing UML files
+ * A parser class for parsing UML files.
  */
 class UMLparser implements ParserInterface
 {
@@ -61,7 +61,7 @@ class UMLparser implements ParserInterface
 	}
 
 	/**
-	 * Parses an interface
+	 * Parses an interface.
 	 *
 	 * @param array $data The array with the lines of the interface
 	 *
@@ -91,7 +91,7 @@ class UMLparser implements ParserInterface
     }
 
 	/**
-	 * Parses a class
+	 * Parses a class.
 	 *
 	 * @param array $data The array with the lines of the class
 	 *
@@ -129,7 +129,7 @@ class UMLparser implements ParserInterface
 	}
 
 	/**
-	 * Parses a property
+	 * Parses a property.
 	 *
 	 * @param string $str The property line
 	 *
@@ -151,7 +151,7 @@ class UMLparser implements ParserInterface
     }
 
 	/**
-	 * Parses a method
+	 * Parses a method.
 	 *
 	 * @param string $str The method line
 	 * 
@@ -174,7 +174,7 @@ class UMLparser implements ParserInterface
 	}
 
 	/**
-	 * Parses arguments
+	 * Parses arguments.
 	 *
 	 * @param string $args All arguments in one line with ', ' between them
 	 * 
@@ -201,7 +201,7 @@ class UMLparser implements ParserInterface
 	}
 
 	/**
-	 * Parses the access
+	 * Parses the access.
 	 *
 	 * @param string $str The access
 	 *

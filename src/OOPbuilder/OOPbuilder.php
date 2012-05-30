@@ -11,7 +11,7 @@ namespace OOPbuilder;
 use OOPbuilder\Config;
 
 /**
- * The frontcontroller of OOPbuilder, this handles everything
+ * The frontcontroller of OOPbuilder, this handles everything.
  */
 class OOPbuilder
 {

@@ -9,7 +9,7 @@
 namespace OOPbuilder\File;
 
 /**
- * Represends one single file
+ * Represents one single file.
  */
 class File
 {
@@ -23,7 +23,8 @@ class File
 	 *
 	 * @param string	  $name		 The name of the file, 
 	 *								 if a dot is in here everything after the last dot is the file extension
-	 * @param string|null $extension The extension of the file, if not already set in the first parameter, otherwise this is optional
+     * @param string|null $extension The extension of the file, if not already set in the first parameter, 
+     *                               otherwise this is optional
 	 *
 	 * @throws \InvalidArgumentException When there isn't set a file extension
 	 */

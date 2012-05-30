@@ -9,7 +9,7 @@
 namespace OOPbuilder;
 
 /**
- * Autoloads the files
+ * Autoloads the files.
  */
 class Autoloader
 {
@@ -17,7 +17,7 @@ class Autoloader
     protected $basepath = __DIR__;
 
 	/**
-	 * Sets the basepath of the files
+	 * Sets the basepath of the files.
 	 *
 	 * @param string $basepath The basepath
 	 */
@@ -30,7 +30,7 @@ class Autoloader
     }
 
 	/**
-	 * Sets a class name
+	 * Sets a class name.
 	 *
 	 * @param array $class An array with the classnames in the keys and their namespaces in the value
 	 */
@@ -40,7 +40,7 @@ class Autoloader
     }
 
     /**
-     * Gets a namespace
+     * Gets a namespace.
      *
      * @param string $class The classname
      *
