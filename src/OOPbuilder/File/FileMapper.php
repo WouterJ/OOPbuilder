@@ -19,7 +19,7 @@ class FileMapper
     protected $basepath;
 
 	/**
-	 * Sets the basepath of the files
+	 * Sets the basepath of the files.
 	 *
 	 * @param string $basepath
 	 */
@@ -28,11 +28,26 @@ class FileMapper
         $this->basepath = $this->checkBasepath($basepath);
     }
 
+    /**
+     * Get all files by extension
+     *
+     * @param string $extension
+     * @param string $basepath The basepath, if it is not equal to the global setting
+     *
+     * @return array
+     */
     public function getByExtension($extension, $basepath = null)
     {
         return array_map(array($this, 'populate'), glob($this->checkBasepath($basepath).'*.'.$extension);
     }
 
+    /**
+     * Convert data to an object
+     *
+     * @param string $name The name of the file
+     *
+     * @return OOPbuilder\File\File|null Returns the object or null when there is an error
+     */
     public function populate($name)
     {
         try {
@@ -42,6 +57,17 @@ class FileMapper
         }
     }
 
+    /**
+     * Create a file on the filesystem
+     *
+     * @param OOPbuilder\File\File $file The file object with the information
+     * @param string $basepath The basepath, if it is not equal to the global setting
+     *
+     * @return OOPbuilder\File\File The file with the path setted
+     *
+     * @throws OOPbuilder\Exception\BadInstanceOfArgumentException When $file is not an instance of OOPbuilder\File\File
+     * @throws \InvalidArgumentException When the file already exists
+     */
     public function create($file, $basepath = null)
     {
         if (!($file instanceof File)) {
@@ -78,6 +104,16 @@ class FileMapper
         return $file;
     }
 
+    /**
+     * Update a file on the filesystem
+     *
+     * @param OOPbuilder\File\File $file The file object with all data
+     * 
+     * @return OOPbuilder\File\File
+     *
+     * @throws OOPbuilder\Exception\BadInstanceOfArgumentException When $file is not an instance of OOPbuilder\File\File
+     * @throws \InvalidArgumentException When the file does not exists
+     */
     public function update($file)
     {
         if (!($file instanceof File)) {
@@ -110,6 +146,14 @@ class FileMapper
         return $file;
     }
 
+    /**
+     * Delete a file on the file system
+     *
+     * @param OOPbuilder\File\File $file The file object with all data
+     *
+     * @throws OOPbuilder\Exception\BadInstanceOfArgumentException When $file is not an instance of OOPbuilder\File\File
+     * @throws \InvalidArgumentException When the file does not exists
+     */
     public function delete($file)
     {
         if (!($file instanceof File)) {
@@ -134,6 +178,17 @@ class FileMapper
         unlink($path);
     }
 
+    /**
+     * Check and parse the basepath.
+     *
+     * @access private
+     *
+     * @param string|null $path The basepath
+     *
+     * @return string The correct basepath
+     *
+     * @throws \InvalidArgumentException When $path is not a string
+     */
     private function checkBasepath($path)
     {
         if (in_array($path, array(null, false))) {
