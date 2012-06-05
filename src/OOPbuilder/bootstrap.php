@@ -7,7 +7,7 @@
  */
 
 define('SRC_ROOT', realpath(__DIR__.'/../'));
-define('ROOT', realpath(__DIR__.'/../../'));
+define('ROOT', getcwd());
 
 require_once SRC_ROOT.'/OOPbuilder/Autoloader.php';
 require_once SRC_ROOT.'/vendor/Pimple/lib/Pimple.php';
@@ -90,13 +90,17 @@ $container['config.data.file'] = function ($c) {
 // TODO Report this bug
 //$container['config.class'] = 'UMLparser';
 $container['config.data'] = function ($c) {
-    $umlParser = new UMLparser();
+    try {
+        $umlParser = new UMLparser();
 
-    $data = array();
-    $data['content'] = $umlParser->parse(file_get_contents($c['config.data.file']));
-    $data['projectname'] = basename($c['config.data.file'], '.uml');
+        $data = array();
+        $data['content'] = $umlParser->parse(file_get_contents($c['config.data.file']));
+        $data['projectname'] = basename($c['config.data.file'], '.uml');
 
-    return $data;
+        return $data;
+    } catch (Exception $e) {
+        echo $e->getMessage().PHP_EOL.PHP_EOL;
+    }
 };
 $container['config'] = function ($c) {
     $config = new Config();
