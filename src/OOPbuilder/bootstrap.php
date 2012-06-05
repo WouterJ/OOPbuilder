@@ -18,6 +18,9 @@ use OOPbuilder\Parser\UMLparser;
 
 $container = new Pimple();
 
+/**
+ * All files who needs to be included
+ */
 $container['autoloader.files'] = array(
     'OOPbuilder' => array(
         'Helper',
@@ -39,7 +42,13 @@ $container['autoloader.files'] = array(
         'File/FileMapper',
     )
 );
+/**
+ * The autoloader class
+ */
 $container['autoloader.class'] = 'OOPbuilder\Autoloader';
+/**
+ * Fill the config class
+ */
 $container['autoloader.init'] = function ($c) {
     $autoloader = new $c['autoloader.class']();
 
@@ -49,19 +58,29 @@ $container['autoloader.init'] = function ($c) {
 
     return $autoloader;
 };
+/**
+ * Run the autoloader to include all files
+ */
 $container['autoloader'] = function ($c) {
     $c['autoloader.init']->run();
 };
 
-$container['config.data.file'] = current(glob(ROOT.'/*.uml'));
-$container['config.data'] = function ($c) {
-    $umlParser = new UMLparser();
-    if (!file_exists($c['config.data.file'])) {
+$container['autoloader']();
+
+$container['config.data.file'] = function ($c) {
+    $file = current(glob(ROOT.'/*.uml'));
+    if (!file_exists($file)) {
         throw new LogicException('There is no uml file found at '.ROOT);
     }
 
+    return $file;
+};
+$container['config.class'] = 'UMLparser';
+$container['config.data'] = function ($c) {
+    $umlParser = new ();
+
     $data = array();
-    $data['content'] = $umlParser->parse(file_get_contents($c));
+    $data['content'] = $umlParser->parse(file_get_contents($c['config.data.file']));
     $data['projectname'] = basename($c['config.data.file'], '.uml');
 
     return $data;
@@ -76,13 +95,11 @@ $container['config'] = function ($c) {
     return $config;
 };
 
-$container['oopbuilder.config'] = $container['config'];
-$container['oopbuilder'] = function ($c) {
-    $config = $c['oopbuilder.config'];
+$container['oopbuilder.createproject'] = function ($c) {
+    $config = $c['config'];
 
-    try {
-        $oopBuilder = new OOPbuilder($config);
-    } catch (\InvalidArgumentException $e) {
-        echo $e->getMessage();
-    }
+    var_dump($config);
+};
+$container['oopbuilder'] = function ($c) {
+    $c['oopbuilder.createproject']();
 };
