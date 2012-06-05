@@ -6,11 +6,11 @@
  * @license Creative Commons Attribution Share-Alike <http://creativecommons.org/licenses/by-sa/3.0/>
  */
 
-define('SRC_ROOT', realpath(__DIR__));
+define('SRC_ROOT', realpath(__DIR__.'/../'));
 define('ROOT', realpath(__DIR__.'/../../'));
 
 require_once SRC_ROOT.'/OOPbuilder/Autoloader.php';
-require_once SRC_ROOT.'/Pimple/lib/Pimple.php';
+require_once SRC_ROOT.'/vendor/Pimple/lib/Pimple.php';
 
 use OOPbuilder\Autoloader;
 use OOPbuilder\Config;
@@ -21,7 +21,7 @@ $container = new Pimple();
 /**
  * All files who needs to be included
  */
-$container['autoloader.files'] = array(
+$container['autoloader.config.files'] = array(
     'OOPbuilder' => array(
         'Helper',
         'OOPbuilder',
@@ -45,14 +45,24 @@ $container['autoloader.files'] = array(
 /**
  * The autoloader class
  */
-$container['autoloader.class'] = 'OOPbuilder\Autoloader';
+$container['autoloader.init.class'] = 'OOPbuilder\Autoloader';
+/**
+ * Initialize and configure the autoloader class
+ */
+$container['autoloader.init'] = function ($c) {
+    $autoloader = new $c['autoloader.init.class']();
+
+    $autoloader->setBasepath(SRC_ROOT);
+
+    return $autoloader;
+};
 /**
  * Fill the config class
  */
-$container['autoloader.init'] = function ($c) {
-    $autoloader = new $c['autoloader.class']();
+$container['autoloader.config'] = function ($c) {
+    $autoloader = $c['autoloader.init'];
 
-    foreach ($c['autoloader.files'] as $file) {
+    foreach ($c['autoloader.config.files'] as $file) {
         $autoloader->set($file);
     }
 
@@ -62,10 +72,11 @@ $container['autoloader.init'] = function ($c) {
  * Run the autoloader to include all files
  */
 $container['autoloader'] = function ($c) {
-    $c['autoloader.init']->run();
+    $c['autoloader.config']->run();
 };
 
-$container['autoloader']();
+// run autoloader service
+$container['autoloader'];
 
 $container['config.data.file'] = function ($c) {
     $file = current(glob(ROOT.'/*.uml'));
@@ -75,9 +86,11 @@ $container['config.data.file'] = function ($c) {
 
     return $file;
 };
-$container['config.class'] = 'UMLparser';
+// looks like a bug in PHP => Namespace of the use keywords is not used when using a string
+// TODO Report this bug
+//$container['config.class'] = 'UMLparser';
 $container['config.data'] = function ($c) {
-    $umlParser = new ();
+    $umlParser = new UMLparser();
 
     $data = array();
     $data['content'] = $umlParser->parse(file_get_contents($c['config.data.file']));
@@ -101,5 +114,5 @@ $container['oopbuilder.createproject'] = function ($c) {
     var_dump($config);
 };
 $container['oopbuilder'] = function ($c) {
-    $c['oopbuilder.createproject']();
+    $c['oopbuilder.createproject'];
 };
