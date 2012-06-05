@@ -23,8 +23,8 @@ class Autoloader
 	 */
     public function setBasepath($basepath)
     {
-        $this->basepath = (!in_array(substr($basepath, -1), array('/', '\\'))
-                            ? $basepath.DIRECTORY_SEPARATOR
+        $this->basepath = (in_array(substr($basepath, -1), array('/', '\\'))
+                            ? substr($basepath, 0, -1)
                             : $basepath
                           );
     }
@@ -68,7 +68,7 @@ class Autoloader
     public function run()
     {
         foreach ($this->classes as $class) {
-            require_once $this->basepath.'OOPbuilder'.DIRECTORY_SEPARATOR.$class.'.php';
+            require_once $this->basepath.DIRECTORY_SEPARATOR.'OOPbuilder'.DIRECTORY_SEPARATOR.$class.'.php';
         }
     }
 }
