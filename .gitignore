@@ -1,2 +1,5 @@
 *.swp
 *~
+
+api/*
+tests/OOPbuilder/Tests/File/testFiles/*
