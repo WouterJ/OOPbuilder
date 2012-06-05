@@ -91,6 +91,7 @@ $container['config.data.file'] = function ($c) {
 //$container['config.class'] = 'UMLparser';
 $container['config.data'] = function ($c) {
     try {
+        // change this if bug is fixed
         $umlParser = new UMLparser();
 
         $data = array();
@@ -115,7 +116,10 @@ $container['config'] = function ($c) {
 $container['oopbuilder.createproject'] = function ($c) {
     $config = $c['config'];
 
-    var_dump($config);
+    $classes = $config->get('content');
+
+    foreach ($classes as $class) {
+    }
 };
 $container['oopbuilder'] = function ($c) {
     $c['oopbuilder.createproject'];
