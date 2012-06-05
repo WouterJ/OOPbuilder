@@ -11,7 +11,9 @@ namespace OOPbuilder;
 use OOPbuilder\Config;
 
 /**
- * The frontcontroller of OOPbuilder, this handles everything.
+ * The front controller of OOPbuilder, this handles everything.
+ *
+ * @todo deprecate this
  */
 class OOPbuilder
 {
@@ -36,5 +38,17 @@ class OOPbuilder
                           )
                       );
         }
+    }
+
+    /**
+     * Render one single project.
+     *
+     * @param Pimple $container The service container
+     */
+    public function renderProject($container)
+    {
+        $fileMapper = new FileMapper();
+
+        var_dump($config);
     }
 }
