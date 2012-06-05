@@ -38,7 +38,7 @@ class FileMapper
      */
     public function getByExtension($extension, $basepath = null)
     {
-        return array_map(array($this, 'populate'), glob($this->checkBasepath($basepath).'*.'.$extension);
+        return array_map(array($this, 'populate'), glob($this->checkBasepath($basepath).'*.'.$extension));
     }
 
     /**
