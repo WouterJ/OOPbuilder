@@ -13,7 +13,12 @@ namespace OOPbuilder;
  */
 class Config
 {
-    protected $setting = array();
+    protected $setting;
+
+    public function __construct()
+    { 
+        $this->setting = new \StdClass();
+    }
 
 	/**
 	 * Sets a setting.
@@ -23,7 +28,7 @@ class Config
 	 */
     public function set($id, $value)
     {
-        $this->$setting[$id] = $value;
+        $this->setting->$id = $value;
     }
 
 	/**
@@ -37,7 +42,7 @@ class Config
 	 */
     public function get($id)
     {
-        if (!isset($this->$setting[$id])) {
+        if (!isset($this->setting->$id)) {
             throw new \InvalidArgumentException(
                           sprintf(
                               'The %s setting does not exists in Config::get()',
@@ -46,6 +51,6 @@ class Config
                       );
         }
 
-        return $this->$setting[$id];
+        return $this->setting->$id;
     }
 }
