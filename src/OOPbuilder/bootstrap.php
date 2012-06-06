@@ -15,6 +15,9 @@ require_once SRC_ROOT.'/vendor/Pimple/lib/Pimple.php';
 use OOPbuilder\Autoloader;
 use OOPbuilder\Config;
 use OOPbuilder\Parser\UMLparser;
+use OOPbuilder\Builder\ClassBuilder;
+use OOPbuilder\Builder\MethodBuilder;
+use OOPbuilder\Builder\PropertyBuilder;
 
 $container = new Pimple();
 
@@ -116,9 +119,45 @@ $container['config'] = function ($c) {
 $container['oopbuilder.createproject'] = function ($c) {
     $config = $c['config'];
 
-    $classes = $config->get('content');
+    $objects = $config->get('content');
 
-    foreach ($classes as $class) {
+    foreach ($objects as $object) {
+        switch ($object['type']) {
+            case 'class' :
+                // handle classes
+
+                // build the class
+                $class = new ClassBuilder($object['name']);
+
+                foreach ($object['properties'] as $property) {
+                    // create properties
+                    $class->addProperty(
+                        new PropertyBuilder($property['name'], $property['access'], (isset($property['value'])
+                                                                                            ? $property['value']
+                                                                                            : null
+                                                                                        ))
+                                       );
+                }
+
+                foreach ($object['methods'] as $method) {
+                    // create methods
+                    $methodb = new MethodBuilder($method['name'], $method['access']);
+
+                    foreach ($method['arguments'] as $argument) {
+                        $methodb->addArgument($argument['name'], $argument['value']);
+                    }
+
+                    $class->addMethod($methodb);
+                }
+
+                var_dump($class->build());
+
+                break;
+
+            case 'interface' :
+                // handle interfaces
+                break;
+        }
     }
 };
 $container['oopbuilder'] = function ($c) {
