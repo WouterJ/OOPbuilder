@@ -9,6 +9,7 @@
 namespace OOPbuilder\Builder;
 
 use OOPbuilder\Builder\MethodBuilder;
+use OOPbuilder\Builder\InterfaceBuilder;
 use OOPbuilder\Exception\BadInstanceOfArgumentException;
 
 /**
@@ -17,6 +18,8 @@ use OOPbuilder\Exception\BadInstanceOfArgumentException;
 class Classbuilder implements BuilderInterface
 {
     protected $name;
+    protected $extend;
+    protected $implement = array();
     protected $properties = array();
     protected $methods = array();
 
@@ -28,6 +31,14 @@ class Classbuilder implements BuilderInterface
     public function __construct($name)
     {
         $this->name = ucfirst($name);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
 	/**
@@ -73,6 +84,26 @@ class Classbuilder implements BuilderInterface
     }
 
     /**
+     * Extend a class
+     *
+     * @param string $parent The parent class
+     */
+    public function extend($parent) 
+    {
+        $this->extend = $parent;
+    }
+
+    /**
+     * Implement a interface
+     *
+     * @param string $interface The interface
+     */
+    public function implement($interface) 
+    {
+        $this->implements[] = $interface;
+    }
+
+    /**
      * Build the class.
      *
      * @return string The source of the class
@@ -80,7 +111,19 @@ class Classbuilder implements BuilderInterface
     public function build()
     {
 		$class = 'class '.$this->name;
-		if ((array() === $this->properties) && (array() === $this->methods)) {
+
+        // extend
+        if (null !== $this->extend) {
+            $class .= ' extends '.$this->extend;
+        }
+
+        // implement
+        if (0 < count($this->implement)) {
+            $class .= ' implements '.implode(', ', $this->implement);
+        }
+
+        // build properties
+		if ((0 == count($this->properties)) && (0 == count($this->methods))) {
 			$class .= ' {}';
 		} else {
 			$class .= "\n{";

@@ -109,10 +109,15 @@ class UMLparser implements ParserInterface
 		foreach ($data as $line) {
 			if ('  ' !== substr($line, 0, 2)) {
 				$class['name'] = $line;
+
+                // implements
                 if (1 < count($children = explode('::', $line))) {
                     $class['name'] = trim($children[0]);
                     $class['implements'] = trim($children[1]);
-                } else if(1 < count($children = explode(':', $line))) {
+                }
+                
+                // extends
+                if(1 < count($children = explode(':', $line))) {
                     $class['name'] = trim($children[0]);
                     $class['extends'] = trim($children[1]);
                 }

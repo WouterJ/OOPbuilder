@@ -9,4 +9,7 @@
 
 require_once __DIR__.DIRECTORY_SEPARATOR.'src/OOPbuilder/bootstrap.php';
 
-$container['oopbuilder'];
+use OOPbuilder\Console\Application;
+
+$app = new Application();
+$app->run();

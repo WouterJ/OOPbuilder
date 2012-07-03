@@ -4,3 +4,4 @@
 api/*
 tests/OOPbuilder/Tests/File/testFiles/*
 testApp/*
+src/vendor/*

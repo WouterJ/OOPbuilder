@@ -1,0 +1,25 @@
+{
+    "name": "oopbuilder/oopbuilder",
+    "description": "A console application for easing the creation of OOP applications.",
+    "keywords": ["oop", "object", "application"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wouter J",
+            "homepage": "http://wouterj.nl/"
+        }
+    ],
+    "config": {
+        "vendor-dir": "src/vendor",
+        "bin-dir": "src/vendor/bin"
+    },
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/console": "2.1.*",
+        "pimple/pimple": "1.*"
+    }
+}
