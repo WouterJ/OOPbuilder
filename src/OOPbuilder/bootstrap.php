@@ -9,10 +9,9 @@
 define('SRC_ROOT', realpath(__DIR__.'/../'));
 define('ROOT', getcwd());
 
-require_once SRC_ROOT.'/OOPbuilder/Autoloader.php';
-require_once SRC_ROOT.'/vendor/Pimple/lib/Pimple.php';
+// register autoloader
+require_once SRC_ROOT.'/vendor/autoload.php';
 
-use OOPbuilder\Autoloader;
 use OOPbuilder\Config;
 use OOPbuilder\Parser\UMLparser;
 use OOPbuilder\Builder\ClassBuilder;
@@ -20,66 +19,6 @@ use OOPbuilder\Builder\MethodBuilder;
 use OOPbuilder\Builder\PropertyBuilder;
 
 $container = new Pimple();
-
-/**
- * All files who needs to be included
- */
-$container['autoloader.config.files'] = array(
-    'OOPbuilder' => array(
-        'Helper',
-        'OOPbuilder',
-        'Config',
-
-        'Exception/BadArgumentTypeException',
-        'Exception/BadInstanceOfArgumentException',
-
-        'Builder/BuilderInterface',
-        'Builder/ClassBuilder',
-        'Builder/MethodBuilder',
-        'Builder/PropertyBuilder',
-
-        'Parser/ParserInterface',
-        'Parser/UMLparser',
-
-        'File/File',
-        'File/FileMapper',
-    )
-);
-/**
- * The autoloader class
- */
-$container['autoloader.init.class'] = 'OOPbuilder\Autoloader';
-/**
- * Initialize and configure the autoloader class
- */
-$container['autoloader.init'] = function ($c) {
-    $autoloader = new $c['autoloader.init.class']();
-
-    $autoloader->setBasepath(SRC_ROOT);
-
-    return $autoloader;
-};
-/**
- * Fill the config class
- */
-$container['autoloader.config'] = function ($c) {
-    $autoloader = $c['autoloader.init'];
-
-    foreach ($c['autoloader.config.files'] as $file) {
-        $autoloader->set($file);
-    }
-
-    return $autoloader;
-};
-/**
- * Run the autoloader to include all files
- */
-$container['autoloader'] = function ($c) {
-    $c['autoloader.config']->run();
-};
-
-// run autoloader service
-$container['autoloader'];
 
 $container['config.data.file'] = function ($c) {
     $file = current(glob(ROOT.'/*.uml'));
@@ -128,6 +67,15 @@ $container['oopbuilder.createproject'] = function ($c) {
 
                 // build the class
                 $class = new ClassBuilder($object['name']);
+
+                if (isset($object['implements'])) {
+                    foreach (explode(',', $object['implements']) as $implement) {
+                        $class->implement(trim($implement));
+                    }
+                }
+                if (isset($object['extends'])) {
+                    $class->extend(trim($object['extends']));
+                }
 
                 foreach ($object['properties'] as $property) {
                     // create properties
